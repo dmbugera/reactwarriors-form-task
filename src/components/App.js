@@ -28,15 +28,14 @@ export default class App extends React.Component {
                 country: 1,
                 city: 1,
                 avatar: defaultAvatar,
-                countryName: '',
-                cityName: ''
             },
             errors: {
                 firstname: false,
                 lastname: false,
                 password: false,
                 repeatPassword: false,
-                mobile: false
+                mobile: false,
+                email: false,
             }
         }
 
@@ -75,24 +74,42 @@ export default class App extends React.Component {
     nextTab = event =>{
         const errors = {};
 
+        if(this.state.activeTab === 1){
+            if (this.state.values.firstname.length < 5) {
+                errors.firstname = "Must be more 5 characters";
+            }
 
-        if (this.state.values.firstname.length < 5) {
-            errors.firstname = "Must be more 5 characters";
+            if (this.state.values.lastname.length < 5) {
+                errors.lastname = "Must be more 5 characters";
+            }
+
+            if (!this.state.values.password.length) {
+                errors.password = "Must be more 3 characters";
+            }
+
+            if (this.state.values.password !== this.state.values.repeatPassword) {
+                errors.repeatPassword = "Must be equil password";
+            }
+        }else if(this.state.activeTab === 2) {
+
+            const validateEmail = (email) => {
+                let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(String(email).toLowerCase());
+            };
+
+            const validateMobile = (mobile) => {
+                let re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+                return re.test(mobile);
+            };
+
+            if( !validateEmail(this.state.values.email)){
+                errors.email = "Enter valid email";
+            }
+            if( !validateMobile(this.state.values.mobile)){
+                errors.mobile = "Enter valid number";
+            }
         }
-
-        if (this.state.values.lastname.length < 5) {
-            errors.lastname = "Must be more 5 characters";
-        }
-
-        if (!this.state.values.password.length) {
-            errors.password = "Must be more 3 characters";
-        }
-
-        if (this.state.values.password !== this.state.values.repeatPassword) {
-            errors.repeatPassword = "Must be equil password";
-        }
-
-        if (Object.keys(errors).length > 0) {
+            if (Object.keys(errors).length > 0) {
             //error
             this.setState({
                 errors: errors
@@ -100,7 +117,8 @@ export default class App extends React.Component {
         } else {
             this.setState(
                 prevState => ({
-                    activeTab: prevState.activeTab + 1
+                    activeTab: prevState.activeTab + 1,
+                    errors: errors
                 }),
                 () => {
                     console.log(this.state.activeTab);

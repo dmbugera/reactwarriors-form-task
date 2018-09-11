@@ -9,6 +9,9 @@ body {
   transform: translate(-50%, -50%);
   width: 460px; 
 }
+.form-control.error{
+  box-shadow: 0 0 3px 1px red;
+}
 
 .invalid-feedback {
   display: block; 
@@ -56,10 +59,16 @@ body {
 
 }
 
-.tab-item.active .tab-item__index{
+.tab-item__index.active{
   background: #19ddfe;
   border-color: #f26120;
-
+}
+.tab-item.complete .tab-item__index{
+  background: #f26120;
+  border-color: #f26120;
+}
+.tab-item.complete:after{
+  background: #f26120;
 }
 
 .tab-item__title{

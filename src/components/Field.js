@@ -10,6 +10,7 @@ const Field = props => {
         onChange,
         error,
         id,
+        isError
     } = props;
     return (
         <div className="form-group">
@@ -17,7 +18,7 @@ const Field = props => {
             <input
                 id={id}
                 type={type}
-                className="form-control"
+                className={error ? "form-control error" : "form-control" }
                 placeholder={placeholder}
                 name={name}
                 value={value}
