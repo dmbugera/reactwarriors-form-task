@@ -5,6 +5,7 @@ import Tabs from "./Tabs";
 import Basic from "./steps/Basic";
 import Contacts from "./steps/Contacts";
 import Avatar from "./steps/Avatar";
+import Button from "./Button";
 import Final from "./steps/Final";
 import defaultAvatar from '../img/defaultAvatar.png'
 
@@ -27,6 +28,8 @@ export default class App extends React.Component {
                 country: 1,
                 city: 1,
                 avatar: defaultAvatar,
+                countryName: '',
+                cityName: ''
             },
             errors: {
                 firstname: false,
@@ -36,6 +39,8 @@ export default class App extends React.Component {
                 mobile: false
             }
         }
+
+        this.baseState = this.state
     }
 
     onChange = event =>{
@@ -118,7 +123,15 @@ export default class App extends React.Component {
         )
     };
 
+    reset = event =>{
+        this.setState(
+            this.setState (this.baseState)
+        );
+        console.log(this.state.activeTab);
+    };
+
     getOptionsItems = (items) => {
+
         return items.map(item => (
             <option key={item.id} value={item.id}>
                 {item.name}
@@ -182,30 +195,41 @@ export default class App extends React.Component {
                                 lastname = {this.state.values.lastname}
                                 email = {this.state.values.email}
                                 mobile = {this.state.values.mobile}
-                                country = {this.state.values.country}
-                                city= {this.state.values.city}
+                                country = {countries[this.state.values.country - 1].name}
+                                city= {cities[this.state.values.city].name}
 
                             />: null
                         }
 
                     </div>
-                    <div className="d-flex justify-content-center">
-                        <button
-                            type="button"
-                            className="btn btn-light mr-4"
-                            disabled=""
-                            onClick={this.prevTab}
-                        >
-                            Previous
-                        </button>
-                        <button
-                            type="button"
-                            className="btn btn-secondary"
-                            onClick={this.nextTab}
-                        >
-                            Next
-                        </button>
-                    </div>
+                    {this.state.activeTab < 4 ?
+
+                        <div className="d-flex justify-content-center">
+                            <Button
+                                className="btn btn-light mr-4"
+                                disabled={this.state.activeTab === 1 ? 'true' : null}
+                                onClick={this.prevTab}
+                                btnContent='Previous'
+                            />
+                            <Button
+                                className="btn btn-secondary"
+                                disabled=''
+                                onClick={this.nextTab}
+                                btnContent='Next'
+                            />
+                        </div>: null
+                    }
+                    {this.state.activeTab === 4 ?
+
+                        <div className="d-flex justify-content-center">
+                            <Button
+                                className="btn btn-primary"
+                                disabled=''
+                                onClick={this.reset}
+                                btnContent='Reset'
+                            />
+                        </div>: null
+                    }
                 </form>
             </div>
         );

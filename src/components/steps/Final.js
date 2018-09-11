@@ -13,15 +13,15 @@ const Final = props => {
     } = props;
     return (
         <div className="container-fluid final">
-            <div className="row">
+            <div className="row mb-4">
                 <div className="col-4">
                     <img src={avatar}/>
                 </div>
-                <div className="col-8">
-                    <h2>{firstname} {lastname}</h2>
+                <div className="col-8 final__name">
+                    <h4>{firstname} {lastname}</h4>
                 </div>
             </div>
-            <div className="row">
+            <div className="row mb-4 px-3">
                 <table>
                     <tbody>
                     <tr className="mb-10">
